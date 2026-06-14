@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import json
+import pymongo
 
 def scrapePost():
     pageURL = "https://www.warhammer-community.com/en-gb/articles/hjdxp86f/saturday-pre-orders-warhammer-40000-armageddon/"
