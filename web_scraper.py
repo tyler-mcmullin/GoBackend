@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from playwright.sync_api import sync_playwright
 from pymongo import MongoClient
+from datetime import datetime
 import requests
 import json
 import os
@@ -25,6 +26,8 @@ def scrapePost():
 
     date = soup.find("time", attrs = {"class":"copy-bitter-xs whitespace-nowrap hidden @[175px]/video:block @[225px]/article:block xl:!block"}).text.strip()
 
+    time = datetime.now()
+    formatted = time.strftime("%Y-%m-%d %H:%M:%S")
 
     MONGO_URI = os.getenv("MONGO_URI")
     client = MongoClient(MONGO_URI)
@@ -35,6 +38,7 @@ def scrapePost():
         "products" : fmtProducts,
         "date" : date,
         "source" : pageURL,
+        "time_added" : time
     }
 
     collection.insert_one(data)
@@ -63,6 +67,4 @@ def getURL():
 
 
 load_dotenv()
-scrapePost()
-
-    
+scrapePost() 
