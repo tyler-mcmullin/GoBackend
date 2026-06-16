@@ -24,6 +24,10 @@ def scrapePost():
     for product in products:
         fmtProducts.append(product.text)
 
+    if not fmtProducts:
+        print("Error: Failed to generate products")
+        return
+
     date = soup.find("time", attrs = {"class":"copy-bitter-xs whitespace-nowrap hidden @[175px]/video:block @[225px]/article:block xl:!block"}).text.strip()
 
     time = datetime.now()
