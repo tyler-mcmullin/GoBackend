@@ -24,6 +24,8 @@ def scrapePost():
     for product in products:
         fmtProducts.append(product.text)
 
+    fmtProducts = mergeSplitProducts(fmtProducts)
+
     if not fmtProducts:
         print("Error: Failed to generate products")
         return
@@ -46,6 +48,17 @@ def scrapePost():
     }
 
     collection.insert_one(data)
+
+
+def mergeSplitProducts(products):
+    merged = []
+    for product in products:
+        if product.startswith(" ") and merged:
+            # Append to the previous product
+            merged[-1] = merged[-1] + product
+        else:
+            merged.append(product)
+    return merged
 
 def getURL():
     baseURL = "https://www.warhammer-community.com"
